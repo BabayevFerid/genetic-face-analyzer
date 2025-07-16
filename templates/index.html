@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genetic Face Analyzer</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    img { max-width: 200px; margin: 20px 0; }
+    ul { list-style-type: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <h1>🧬 Genetic Face Analyzer</h1>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" accept="image/*" required>
+    <button type="submit">Analyze</button>
+  </form>
+
+  {% if result %}
+    <h2>Results:</h2>
+    <img src="{{ image_path }}" alt="Uploaded Image">
+    <ul>
+      <li><strong>Age:</strong> {{ result.age }}</li>
+      <li><strong>Gender:</strong> {{ result.gender }}</li>
+      <li><strong>Emotion:</strong> {{ result.emotion.dominant_emotion }}</li>
+      <li><strong>Ethnicity:</strong>
+        <ul>
+          {% for race, percent in result.race.items() %}
+            <li>{{ race }}: {{ percent | round(2) }}%</li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+  {% endif %}
+</body>
+</html>
